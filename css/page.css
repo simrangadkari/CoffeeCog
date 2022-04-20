@@ -20,15 +20,21 @@ img {
 html,body {
 	background-image: url("img/retina_wood.png");
 	background-repeat: repeat;
-	font-family: basic, sans-serif;
+	font-family:'Courier New', Courier, monospace;
 	width: 100%;
 	height: 100%;
 	margin: 0px;
 }
 
 h1, h2, h3, h4 {
+	font-size: 30px;
+	font-family: 'Courier New', Courier, monospace;
 	margin: 0px;
+	align-self: center;
+	padding: 10px;
 }
+
+
 
 body {
 	flex-direction: column;
@@ -62,7 +68,11 @@ body {
 	/*border:  2px solid cyan;*/
 }
 
-
+.game-info{
+	display:flex;
+	flex-direction: column;
+	
+}
 
 .column {
 	flex: 1;

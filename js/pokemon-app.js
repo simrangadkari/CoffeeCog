@@ -1,8 +1,12 @@
 const MAP_SIZE = 500
+
+
 const NU_CENTER = ol.proj.fromLonLat([-87.6753, 42.056])
 
 // downtown center, uncomment to use downtown instead, or make your own
 // const NU_CENTER = ol.proj.fromLonLat([-87.6813, 42.049])
+
+
 const AUTOMOVE_SPEED = 1
 const UPDATE_RATE = 100
 /*
@@ -17,11 +21,20 @@ let landmarkCount = 0
 let gameState = {
 	points: 0,
 	captured: [],
+	negatives: [],
 	messages: []
 }
 
 // Create an interactive map
 // Change any of these functions
+
+
+
+// COFFEE SHOP GAME
+// add caffeine "points" to your score when near a cafe
+//subtract caffeine "points" from score when near a decaf cup... (might change) 
+// ^^ randomly generated positions
+
 
 let map = new InteractiveMap({
 	mapCenter: NU_CENTER,
@@ -31,7 +44,7 @@ let map = new InteractiveMap({
 
 	initializeMap() {
 		// A good place to load landmarks
-		this.loadLandmarks("landmarks-shop-evanston", (landmark) => {
+		this.loadLandmarks("landmarks-coffee-shops-evanston", (landmark) => {
 			// Keep this landmark?
 
 			// Keep all landmarks in the set
@@ -43,14 +56,14 @@ let map = new InteractiveMap({
 
 		// Create random landmarks
 		// You can also use this to create trails or clusters for the user to find
-		for (var i = 0; i < 10; i++) {
-
+		for (var i = 0; i < 5; i++) {
 			// make a polar offset (radius, theta) 
 			// from the map's center (units are *approximately* meters)
 			let position = clonePolarOffset(NU_CENTER, 400*Math.random() + 300, 20*Math.random())
 			this.createLandmark({
 				pos: position,
-				name: words.getRandomWord(),
+				name: "decaf " + i,
+				bad: true,
 			})
 		}
 	},
@@ -64,12 +77,15 @@ let map = new InteractiveMap({
 
 		// Any openmap data?
 		if (landmark.openMapData) {
-			console.log(landmark.openMapData)
+			
 			landmark.name = landmark.openMapData.name
+			console.log(landmark.openMapData)
+			
 		}
 		
-		// *You* decide how to create a marker
-		// These aren't used, but could be examples
+
+
+		
 		landmark.idNumber = landmarkCount++
 		landmark.color = [Math.random(), 1, .5]
 
@@ -83,22 +99,27 @@ let map = new InteractiveMap({
 		// -1 is not in any range
 
 		console.log("enter", landmark.name, newLevel)
-		if (newLevel == 2) {
+		console.log(gameState.messages)
 
-			// Add points to my gamestate
+		
+
+			//if near a caffeine source	
+		if (newLevel == 2 && !gameState.captured.includes(landmark.name) && !landmark.bad) {
+			gameState.captured.push(landmark.name)
+			// Add a message
+			gameState.messages.push(`You captured ${landmark.name} for ${landmark.points} points`)
 			gameState.points += landmark.points
-
-			
-
-			// Have we captured this?
-			if (!gameState.captured.includes(landmark.name)) {
-				gameState.captured.push(landmark.name)
-				// Add a message
-				gameState.messages.push(`You captured ${landmark.name} for ${landmark.points} points`)
-			}
+		}
+		//if near a decaf
+		if (newLevel == 2 &&!gameState.negatives.includes(landmark.name) && landmark.bad ) {
+			gameState.negatives.push(landmark.name)
+			// Add a message
+			gameState.messages.push(`Uh oh... you got too close to ${landmark.name} and lost ${landmark.points} points`)
+			gameState.points -= landmark.points
+		}
 
 		}
-	},
+	,
 
 	onExitRange: (landmark, newLevel, oldLevel, dist) => {
 		// What happens when the user EXITS a range around a landmark 
@@ -150,9 +171,14 @@ window.onload = (event) => {
 			<div id="main-columns">
 
 				<div class="main-column" style="flex:1;overflow:scroll;max-height:200px">
-					(TODO, add your own gamestate)
-					{{gameState}}
-					
+				<div class="game-info">
+					<h1> You Must Remain Caffeinated!</h1>
+					<div class="points"> You have {{gameState.points}} points </div>
+					<div class="visited-cafes"> You have visited these cafes: {{gameState.captured}} </div>
+					<div class="decaf-drank"> You have drank this many cups of decaf: {{gameState.negatives.length}} </div>
+				
+					<div class="current-msg"> {{gameState.messages[gameState.messages.length - 1]}} </div>
+				</div>
 				</div>
 
 				<div class="main-column" style="overflow:hidden;width:${MAP_SIZE}px;height:${MAP_SIZE}px">
