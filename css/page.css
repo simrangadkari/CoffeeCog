@@ -68,6 +68,11 @@ body {
 	/*border:  2px solid cyan;*/
 }
 
+.points {
+	font-weight: bold;
+	padding:20px;
+}
+
 .game-info{
 	display:flex;
 	flex-direction: column;

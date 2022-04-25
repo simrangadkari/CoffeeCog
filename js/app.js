@@ -100,6 +100,7 @@ window.onload = (event) => {
 				<div class="main-column" style="flex:1">
 					<button>enable geolocation 🌎</button>
 					<location-widget :location="io.location"/>
+					
 				
 				</div>
 
@@ -147,4 +148,6 @@ window.onload = (event) => {
 	})
 
 };
+
+
 

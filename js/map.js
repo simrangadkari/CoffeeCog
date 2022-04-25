@@ -154,7 +154,7 @@ class InteractiveMap {
 				if (!settings.noBG) {
 					styles.push(iconStyle({
 						color: settings.bgColor,
-						icon: "lens",
+						icon: "coffee",
 						scale: scale
 					}))
 				}
