@@ -1,14 +1,19 @@
-const MAP_SIZE = 500
+const MAP_SIZE = 700
 
 
-const NU_CENTER = ol.proj.fromLonLat([-87.6753, 42.056])
+//northwestern campus center
+// const NU_CENTER = ol.proj.fromLonLat([-87.6753, 42.056])
 
 // downtown center, uncomment to use downtown instead, or make your own
-// const NU_CENTER = ol.proj.fromLonLat([-87.6813, 42.049])
+const NU_CENTER = ol.proj.fromLonLat([-87.6813, 42.049])
 
 
-const AUTOMOVE_SPEED = 1
-const UPDATE_RATE = 100
+
+const AUTOMOVE_SPEED = 100
+const UPDATE_RATE = 1000
+
+
+
 /*
  Apps are made out of a header (title/controls) and footer
  and some number of columns
@@ -22,7 +27,8 @@ let gameState = {
 	points: 0,
 	captured: [],
 	negatives: [],
-	messages: []
+	messages: [],
+	time_since: 0
 }
 
 // Create an interactive map
@@ -69,6 +75,8 @@ let map = new InteractiveMap({
 	},
 
 	update() {
+		
+		gameState.time_since += 1
 		// Do something each frame
 	},
 
@@ -83,7 +91,6 @@ let map = new InteractiveMap({
 			
 		}
 		
-
 
 		
 		landmark.idNumber = landmarkCount++
@@ -104,14 +111,18 @@ let map = new InteractiveMap({
 		
 
 			//if near a caffeine source	
-		if (newLevel == 2 && !gameState.captured.includes(landmark.name) && !landmark.bad) {
-			gameState.captured.push(landmark.name)
+		if (newLevel == 2 && !landmark.bad) {
+			if (!gameState.captured.includes(landmark.name)){
+				gameState.captured.push(landmark.name)
+			}
+			
 			// Add a message
 			gameState.messages.push(`You captured ${landmark.name} for ${landmark.points} points`)
 			gameState.points += landmark.points
+			gameState.time_since = 0
 		}
 		//if near a decaf
-		if (newLevel == 2 &&!gameState.negatives.includes(landmark.name) && landmark.bad ) {
+		if (newLevel == 2 && landmark.bad ) {
 			gameState.negatives.push(landmark.name)
 			// Add a message
 			gameState.messages.push(`Uh oh... you got too close to ${landmark.name} and lost ${landmark.points} points`)
@@ -173,9 +184,14 @@ window.onload = (event) => {
 				<div class="main-column" style="flex:1;overflow:scroll;max-height:200px">
 				<div class="game-info">
 					<h1> You Must Remain Caffeinated!</h1>
+
 					<div class="points"> You have {{gameState.points}} points </div>
-					<div class="visited-cafes"> You have visited these cafes: {{gameState.captured}} </div>
-					<div class="decaf-drank"> You have drank this many cups of decaf: {{gameState.negatives.length}} </div>
+
+
+					<div class="time_since"> It has been {{gameState.time_since}} seconds since you have had caffeine </div>
+					
+					<div class="visited-cafes"> You have visited: {{gameState.captured}} </div>
+					
 				
 					<div class="current-msg"> {{gameState.messages[gameState.messages.length - 1]}} </div>
 				</div>
