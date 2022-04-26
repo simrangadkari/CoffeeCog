@@ -188,9 +188,9 @@ window.onload = (event) => {
 					<div class="points"> You have {{gameState.points}} points </div>
 
 
-					<div class="time_since"> It has been {{gameState.time_since}} seconds since you have had caffeine </div>
+					<div class="time_since" style=margin-left:20px;margin-bottom:20px;border-radius:8px;> <b> It has been {{gameState.time_since}} seconds since you have had caffeine </div>
 					
-					<div class="visited-cafes"> You have visited: {{gameState.captured}} </div>
+					<div class="visited-cafes" style=margin-left:20px;margin-bottom:20px;border-radius:8px;> <b>You have visited: {{gameState.captured}} </div>
 					
 				
 					<div class="current-msg"> {{gameState.messages[gameState.messages.length - 1]}} </div>

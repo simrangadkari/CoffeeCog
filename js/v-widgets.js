@@ -34,14 +34,9 @@ const locationWidget = {
 			<button @click="map.automove = !map.automove">automove</button>
 
 		</div>
-		<table>
-
-		<tr >
-		<td>Location: {{map.userLocation}}</td>
+		<style>
+		</style>
 		
-		</tr>	
-		
-		</table>
 
 		<div class="map" id="map"></div>
 

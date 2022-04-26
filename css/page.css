@@ -18,7 +18,7 @@ img {
 /*https://www.tilingtextures.com/light-cork-board/*/
 /*https://www.toptal.com/designers/subtlepatterns/retina-wood/*/
 html,body {
-	background-image: url("img/retina_wood.png");
+	background-image: url("img/cof.webp");
 	background-repeat: repeat;
 	font-family:'Courier New', Courier, monospace;
 	width: 100%;
@@ -76,6 +76,11 @@ body {
 .game-info{
 	display:flex;
 	flex-direction: column;
+	background-color:hsla(0, 57%, 18%, 0.733);
+	color:hsl(35, 60%, 95%);
+	margin: 5px;
+	border-radius: 8px;
+	/* overflow: hidden; */
 	
 }
 
@@ -136,12 +141,21 @@ td:nth-child(1) {
 .widget {
 	padding:  4px;
 	background-color: hsla(30, 90%, 96%, 1);
-	border:  1px solid grey;
+	border:  2px solid rgb(0, 0, 0);
 	box-sizing: border-box;
 	position: relative;
 	flex:  1;
-	margin:  4px;
+	margin:  8px;
+	border-radius: 10px;
 }
+
+/* .button {
+	background-color: white;
+	color: black;
+	border: 2px solid #e7e7e7;
+  }
+  
+  .button:hover {background-color: #e7e7e7;} */
 
 
 
